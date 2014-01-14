@@ -43,4 +43,5 @@ class Settings:
         print self.dbsettings
 
 settings=Settings()
+settings.dbsettings
   
