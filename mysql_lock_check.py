@@ -50,8 +50,6 @@ class Checker:
             if self.check_lock_transaction(transaction):
                 locking_transactions.append(transaction)
         return locking_transactions   
-    def check_dead_lock(self):
-        pass
     def connect(self, dbsettings):
         try:
             self.db=mdb.connect(**dbsettings)
@@ -92,13 +90,15 @@ class Settings:
         self.dbsettings['host'] = self.args.dbhost
         print self.dbsettings
 
-settings=Settings()
-checker = Checker(settings.dbsettings)
-status=checker.get_whole_status()
-raw_transactions=checker.find_part("TRANSACTIONS", status)
-transactions = checker.split_transactions(raw_transactions)
-active=checker.active_transactions(transactions)
-locking=checker.locking_transactions(active)
 
-for transaction in locking:
-    print transaction
+if __name__ == "__main__":
+    settings=Settings()
+    checker = Checker(settings.dbsettings)
+    status=checker.get_whole_status()
+    raw_transactions=checker.find_part("TRANSACTIONS", status)
+    transactions = checker.split_transactions(raw_transactions)
+    active=checker.active_transactions(transactions)
+    locking=checker.locking_transactions(active)
+
+    for transaction in locking:
+        print transaction
